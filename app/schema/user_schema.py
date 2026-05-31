@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, BeforeValidator, Field
+from pydantic import BaseModel, EmailStr, BeforeValidator, Field, ConfigDict
 from typing import Optional, Annotated
 
 
@@ -27,3 +27,12 @@ class UserUpdateSchema(BaseModel):
 
 class UserResponseSchema(UserBaseSchema):
     id: PyObjectId = Field(alias="_id")
+
+    model_config = ConfigDict(populate_by_name=True, from_attribute=True)
+
+
+class UserResponseModel(BaseModel):
+    status: int
+    success: bool
+    message: str
+    data: Optional[UserResponseSchema] = None

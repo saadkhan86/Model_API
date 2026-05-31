@@ -1,5 +1,7 @@
-from pydantic import BaseModel
-from typing import Literal, Optional
+from pydantic import BaseModel, Field, BeforeValidator, ConfigDict
+from typing import Literal, Optional, Annotated
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
 class BaseShopSchema(BaseModel):
@@ -19,5 +21,14 @@ class ShopUpdateSchema(BaseModel):
 
 
 class ShopResponseSchema(BaseShopSchema):
-    id: str
-    user_id: str
+    id: PyObjectId = Field(alias="_id")
+    user_id: Optional[PyObjectId] = None
+
+    model_config = ConfigDict(populate_by_name=True, from_attribute=True)
+
+
+class ShopResponseModel(BaseShopSchema):
+    success: bool
+    status: int
+    message: str
+    data: Optional[ShopResponseSchema] = None

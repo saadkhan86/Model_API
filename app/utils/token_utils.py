@@ -1,34 +1,28 @@
 import jwt
 from fastapi import HTTPException, status
 from datetime import datetime, timedelta, timezone
+from app.error_handler.custom_exception import CustomException
 SECRET_KEY = "kdsfksjfksdjfkieyurfwe1dfgfggdfgdferertdfcbvbcdhfghfg234567890abc"
 ALGORITHM = "HS256"
 
 
 def create_access_token(id: str):
-    expire = datetime.now(timezone.utc) + timedelta(days=1)
-    payload = {"sub": id, "iat": datetime.now(timezone.utc), "exp": expire}
+    try:
+        expire = datetime.now(timezone.utc) + timedelta(days=1)
+        payload = {"sub": id, "iat": datetime.now(timezone.utc), "exp": expire}
 
-    encoded_jwt = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+        encoded_jwt = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+        return encoded_jwt
+    except Exception as e:
+        raise CustomException(f"something went wrong :{e}", 500)
 
 
 def decode_access_token(token: str):
     try:
-        print(f"[DEBUG] Token repr: {repr(token)}")  # shows hidden chars
-        clean_token = str(token).strip()
         decoded_token = jwt.decode(
-            clean_token, SECRET_KEY, algorithms=[ALGORITHM])
+            token, SECRET_KEY, algorithms=[ALGORITHM])
         return decoded_token
-    except jwt.ExpiredSignatureError as err:
-        print(err)
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token expired"
-        )
-    except jwt.InvalidTokenError as err:
-        print(err)
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token invalid"
-        )
+    except jwt.ExpiredSignatureError as e:
+        raise CustomException(f"Token expired : {e}", 401)
+    except jwt.InvalidTokenError as e:
+        raise CustomException(f"Token invalid : {e}", 401)

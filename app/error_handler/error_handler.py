@@ -27,3 +27,12 @@ def validation_exception_handler(request: Request, exc: HTTPException):
 
 def custom_error_handler(request: Request, exc: CustomException):
     return JSONResponse(status_code=exc.status_code, content={"success": False, "status": exc.status_code, "message": exc.message, "data": None})
+
+
+def global_exception_handler(request: Request, exc: Exception):
+    print(f"Global unhandled error {exc}")
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"message": "Internal server error",
+                 "success": False, "data": None},
+    )

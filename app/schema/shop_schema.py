@@ -21,13 +21,13 @@ class ShopUpdateSchema(BaseModel):
 
 
 class ShopResponseSchema(BaseShopSchema):
-    id: PyObjectId = Field(alias="_id")
+    id: PyObjectId = Field(validation_alias="_id")
     user_id: Optional[PyObjectId] = None
 
     model_config = ConfigDict(populate_by_name=True, from_attribute=True)
 
 
-class ShopResponseModel(BaseShopSchema):
+class ShopResponseModel(BaseModel):
     success: bool
     status: int
     message: str

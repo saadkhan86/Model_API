@@ -1,0 +1,31 @@
+from app.utils.error_wrapper import error_wrapper
+from app.repositories.CamerasRepo import CamerasRepo
+from app.schema.camera_schema import CameraCreateSchema, CameraUpdateSchema
+from app.repositories.ShopsRepo import ShopsRepo
+
+camera_repo = CamerasRepo()
+shops_repo = ShopsRepo()
+
+
+@error_wrapper
+def create(data: CameraCreateSchema, user_id):
+    shops_repo.get_shop(user_id, data.shop_id)
+    return camera_repo.create_camera(data)
+
+
+@error_wrapper
+def get(shop_id: str, camera_id: str, user_id: str):
+    shops_repo.get_shop(user_id, shop_id)
+    return camera_repo.get_camera(shop_id, camera_id)
+
+
+@error_wrapper
+def update(camera_id: str, data: CameraUpdateSchema, user_id: str):
+    shops_repo.get_shop(user_id, str(data.shop_id))
+    return camera_repo.update_camera(camera_id, data)
+
+
+@error_wrapper
+def delete(shop_id: str, camera_id: str, user_id: str):
+    shops_repo.get_shop(user_id, shop_id)
+    return camera_repo.delete_camera(shop_id, camera_id)

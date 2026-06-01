@@ -26,9 +26,9 @@ class UserUpdateSchema(BaseModel):
 
 
 class UserResponseSchema(UserBaseSchema):
-    id: PyObjectId = Field(alias="_id")
+    id: PyObjectId = Field(validation_alias="_id")
 
-    model_config = ConfigDict(populate_by_name=True, from_attribute=True)
+    model_config = ConfigDict(populate_by_name=True, from_attributes=True)
 
 
 class UserResponseModel(BaseModel):

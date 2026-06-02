@@ -4,31 +4,31 @@ from typing import Literal, Optional, Annotated
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
-class BaseShopSchema(BaseModel):
-    name: str
-    address: str
+class Base(BaseModel):
+    name: str = Field(..., min_length=3, max_length=50)
+    address: str = Field(..., min_length=3, max_length=255)
     status: Literal["active", "inactive"] = "active"
 
 
-class ShopCreateSchema(BaseShopSchema):
+class Create(Base):
     pass
 
 
-class ShopUpdateSchema(BaseModel):
-    name: Optional[str] = None
-    address: Optional[str] = None
+class Update(BaseModel):
+    name: Optional[str] = Field(None, min_length=3, max_length=50)
+    address: Optional[str] = Field(None, min_length=3, max_length=255)
     status: Optional[Literal["active", "inactive"]] = None
 
 
-class ShopResponseSchema(BaseShopSchema):
+class Return(Base):
     id: PyObjectId = Field(validation_alias="_id")
     user_id: Optional[PyObjectId] = None
 
     model_config = ConfigDict(populate_by_name=True, from_attribute=True)
 
 
-class ShopResponseModel(BaseModel):
+class Response(BaseModel):
     success: bool
     status: int
     message: str
-    data: Optional[ShopResponseSchema] = None
+    data: Optional[Return] = None

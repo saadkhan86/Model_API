@@ -1,38 +1,37 @@
 from pydantic import BaseModel, EmailStr, BeforeValidator, Field, ConfigDict
 from typing import Optional, Annotated
 
-
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
-class UserBaseSchema(BaseModel):
-    name: str
+class Base(BaseModel):
+    name: str = Field(..., min_length=3, max_length=50)
     email: EmailStr
 
 
-class UserSignUpSchema(UserBaseSchema):
-    password: str
+class Signup(Base):
+    password: str = Field(..., min_length=6)
 
 
-class UserLoginSchema(BaseModel):
+class Login(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(..., min_length=6)
 
 
-class UserUpdateSchema(BaseModel):
-    name: Optional[str] = None
+class Update(BaseModel):
+    name: Optional[str] = Field(None, min_length=3, max_length=50)
     email: Optional[EmailStr] = None
-    password: Optional[str] = None
+    password: Optional[str] = Field(None, min_length=6, max_length=20)
 
 
-class UserResponseSchema(UserBaseSchema):
+class Return(Base):
     id: PyObjectId = Field(validation_alias="_id")
 
     model_config = ConfigDict(populate_by_name=True, from_attributes=True)
 
 
-class UserResponseModel(BaseModel):
+class Response(BaseModel):
     status: int
     success: bool
     message: str
-    data: Optional[UserResponseSchema] = None
+    data: Optional[Return] = None

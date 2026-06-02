@@ -1,5 +1,6 @@
 from pymongo import MongoClient
-mongo_client = MongoClient("mongodb://localhost:27017/")
+from app.config.environment_config import environment
+mongo_client = MongoClient(environment.MONGO_DB_URI)
 db = mongo_client["AIAssist"]
 
 users_collection = db["users"]

@@ -1,4 +1,4 @@
-from app.database.database import cameras_collection
+from app.config.database import cameras_collection
 from app.utils.to_object_id import to_object_id
 from app.error_handler.custom_exception import CustomException
 from app.schema.camera_schema import Return, Update, Create

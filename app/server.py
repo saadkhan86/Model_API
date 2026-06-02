@@ -4,7 +4,7 @@ from fastapi.exceptions import HTTPException, RequestValidationError
 from contextlib import asynccontextmanager
 from app.error_handler.custom_exception import CustomException
 from app.error_handler.error_handler import *
-from app.database.database import init_db
+from app.config.database import init_db
 
 
 @asynccontextmanager

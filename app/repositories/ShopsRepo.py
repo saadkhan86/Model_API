@@ -1,7 +1,7 @@
 from app.error_handler.custom_exception import CustomException
 from pymongo import ReturnDocument
 from app.utils.to_object_id import to_object_id
-from app.database.database import shops_collection
+from app.config.database import shops_collection
 from app.schema.shop_schema import Create, Return, Update
 
 

@@ -1,5 +1,5 @@
 from app.schema.user_schema import Signup, Return, Update
-from app.database.database import users_collection
+from app.config.database import users_collection
 from app.error_handler.custom_exception import CustomException
 from pymongo import ReturnDocument
 from app.utils.to_object_id import to_object_id

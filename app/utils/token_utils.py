@@ -2,8 +2,7 @@ import jwt
 from fastapi import HTTPException, status
 from datetime import datetime, timedelta, timezone
 from app.error_handler.custom_exception import CustomException
-SECRET_KEY = "kdsfksjfksdjfkieyurfwe1dfgfggdfgdferertdfcbvbcdhfghfg234567890abc"
-ALGORITHM = "HS256"
+from app.config.environment_config import environment
 
 
 def create_access_token(id: str):
@@ -11,7 +10,7 @@ def create_access_token(id: str):
         expire = datetime.now(timezone.utc) + timedelta(days=1)
         payload = {"sub": id, "iat": datetime.now(timezone.utc), "exp": expire}
 
-        encoded_jwt = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+        encoded_jwt = jwt.encode(payload, environment.SECRET_KEY, algorithm=environment.ALGORITHM)
         return encoded_jwt
     except Exception as e:
         raise CustomException(f"something went wrong :{e}", 500)

@@ -1,5 +1,6 @@
 from fastapi import Request, status
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 from .custom_exception import CustomException
 
 
@@ -11,7 +12,7 @@ def http_exception_handler(request: Request, exc: Exception):
     )
 
 
-def validation_exception_handler(request: Request, exc: HTTPException):
+def validation_exception_handler(request: Request, exc: RequestValidationError):
     errors = []
     for error in exc.errors():
         errors.append({

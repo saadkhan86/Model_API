@@ -6,7 +6,6 @@ from app.error_handler.custom_exception import CustomException
 from app.error_handler.error_handler import *
 from app.config.database import init_db
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("server is starting -----> establishing database")
@@ -17,11 +16,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="All Routes", lifespan=lifespan)
 
-
-@app.get("/")
-def test():
-    return {"message": "Server is runnning"}
-
+@app.get("/",status_code=status.HTTP_200_OK)
+def health_check():
+    return {"status":200,"success":True,"message":"Server is running"}
 
 app.include_router(router)
 

@@ -8,6 +8,10 @@ class EnvironmentSchema(BaseSettings):
     MONGO_DB_URI: str
     SECRET_KEY: str
     ALGORITHM: str
-    model_config = SettingsConfigDict(env_file=BASE_DIR / ".env")
-
-
+    CLOUDINARY_CLOUD_NAME: str
+    CLOUDINARY_API_KEY: str
+    CLOUDINARY_API_SECRET: str
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_DB: int
+    model_config = SettingsConfigDict(env_file=BASE_DIR / ".env", extra="ignore")

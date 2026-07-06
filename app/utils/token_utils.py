@@ -19,7 +19,7 @@ def create_access_token(id: str):
 def decode_access_token(token: str):
     try:
         decoded_token = jwt.decode(
-            token, SECRET_KEY, algorithms=[ALGORITHM])
+            token, environment.SECRET_KEY, algorithms=[environment.ALGORITHM])
         return decoded_token
     except jwt.ExpiredSignatureError as e:
         raise CustomException(f"Token expired : {e}", 401)

@@ -2,7 +2,8 @@ from app.utils.error_wrapper import error_wrapper
 from app.repositories.CamerasRepo import CamerasRepo
 from app.schema.camera_schema import Create, Update
 from app.repositories.ShopsRepo import ShopsRepo
-
+from app.repositories.ConnectionsRepo import ConnectionsRepo
+connection_repo = ConnectionsRepo()
 camera_repo = CamerasRepo()
 shops_repo = ShopsRepo()
 
@@ -10,6 +11,7 @@ shops_repo = ShopsRepo()
 @error_wrapper
 def create(data: Create, user_id):
     shops_repo.get(user_id, data.shop_id)
+    connection_repo.get(data.shop_id)
     return camera_repo.create(data)
 
 

@@ -25,7 +25,7 @@ def get(id: str = Depends(get_current_user)):
     return {"status": 200, "success": True, "message": "user fetched successfully", "data": user}
 
 
-@user_router.put("/", response_model=Response)
+@user_router.patch("/", response_model=Response)
 def update(user: Update, id: str = Depends(get_current_user)):
     user = user_controller.update(id, user)
     return {"status": 200, "success": True, "message": "user updated successfully", "data": user}

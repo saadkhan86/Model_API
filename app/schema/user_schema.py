@@ -1,22 +1,24 @@
-from pydantic import BaseModel, EmailStr, BeforeValidator, Field, ConfigDict
+from pydantic import BaseModel, EmailStr, BeforeValidator, Field, ConfigDict 
 from typing import Optional, Annotated
-
+from datetime import datetime
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
 class Base(BaseModel):
     name: str = Field(..., min_length=3, max_length=50)
     email: EmailStr
+    phone_number: str
+    email_verified:bool=False
 
 
 class Signup(Base):
     password: str = Field(..., min_length=6)
-
+    created_at: datetime = Field(default_factory=datetime.now)
 
 class Login(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=6)
-
+    
 
 class Update(BaseModel):
     name: Optional[str] = Field(None, min_length=3, max_length=50)

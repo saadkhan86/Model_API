@@ -11,7 +11,7 @@ def create(data: Create, user_id=Depends(get_current_user)):
     return {"status": 201, "success": True, "message": "camera created successfully", "data": camera}
 
 
-@camera_router.put("/{camera_id}", response_model=Response)
+@camera_router.patch("/{camera_id}", response_model=Response)
 def update(camera_id: str, data: Update, user_id=Depends(get_current_user)):
     camera = camera_controller.update(camera_id, data, user_id)
     return {"status": 200, "success": True, "message": "camera updated successfully", "data": camera}

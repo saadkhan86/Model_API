@@ -8,9 +8,7 @@ class ConnectionsRepo:
     
     def create(self, user_id:str , data:Create,session = None) -> Return:
         shop_data = data.model_dump()
-        print(type(shop_data["shop_id"]))
         shop_data["shop_id"] = to_object_id(data.shop_id)
-        print(type(shop_data["shop_id"]))
         inserted_connection = self.connection_collection.insert_one(shop_data,session=session)
         if not inserted_connection.inserted_id:
             raise CustomException("Connection not created(ConnectionsRepo.py)", 500)
